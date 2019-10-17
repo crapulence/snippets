@@ -1,0 +1,147 @@
+/* 滚动平滑 */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Webkit 滚动 */
+.scroll-touch {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 点击样式闪动 */
+.highlight-less {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* 去除蓝色边框 */
+.outline-less {
+  outline: none;
+}
+
+/* 禁止用户选择页面中的文字或者图片 */
+.user-select-less {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 移动端清除输入框内阴影 */
+.clear-input-shadow {
+  -webkit-appearance: none;
+}
+
+/* 禁止文本缩放 */
+.text-adjust-disabled {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 禁止保存或拷贝图像 */
+.copy-image-disabled {
+  -webkit-touch-callout: none;
+}
+
+/* 解决字体在移动端比例缩小后出现锯齿的问题 */
+.font-smoothing {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 禁用双击可缩放功能可减少浏览器在用户点击屏幕时延迟生成点击事件的需要 */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* 开启硬件加速 */
+.gpu-performance {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* 隐藏文字 */
+.text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+/* 文字大写 */
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+/* 文字超出一行省略号代替 */
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 文字超出两行省略号代替 */
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* 清除浮动 */
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* 模糊 */
+.blur {
+  -webkit-filter: blur(5px) brightness(90%);
+  -moz-filter: blur(5px) brightness(90%);
+  -ms-filter: blur(5px) brightness(90%);
+  filter: blur(5px) brightness(90%);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false);
+}
+
+/**
+ * Retina border 1px case
+ */
+.hairline {
+  position: relative;
+}
+
+.hairline::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid #e5e5e5;
+  transform-origin: 0 0;
+  transform: scaleY(.5);
+}
+
+.hairline-top::after {
+  border-top-width: 1px;
+}
+
+.hairline-right::after {
+  border-right-width: 1px;
+}
+
+.hairline-bottom::after {
+  border-bottom-width: 1px;
+}
+
+.hairline-left::after {
+  border-left-width: 1px;
+}
+
+.hairline-top-bottom::after {
+  border-width: 1px 0;
+}

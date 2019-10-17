@@ -1,0 +1,23 @@
+{{#if template}}
+<template>
+  <div></div>
+</template>
+{{/if}}
+
+{{#if script}}
+<script>
+export default {
+  name: '{{ kebabCase name }}',
+  props: {},
+  data() {
+    return {}
+  },
+  mounted() {},
+  methods: {}
+}
+</script>
+{{/if}}
+
+{{#if style}}
+<style lang="less" scoped></style>
+{{/if}}
