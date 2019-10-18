@@ -1,8 +1,12 @@
-const debounce = (func, wait, immediate) => {
-  let timeout
-  let result
+export function debounce(
+  func: Function,
+  wait: number,
+  immediate: boolean
+): any {
+  let timeout: number | null;
+  let result: any;
 
-  return (...args) => {
+  return (...args: any[]) => {
     if (timeout) {
       clearTimeout(timeout)
     }

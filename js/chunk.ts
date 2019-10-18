@@ -1,7 +1,7 @@
-export const chunk = (arr, size) => {
+export function chunk<T>(arr: T[], size: number): void {
   Array.from({
     length: Math.ceil(arr.length / size)
-  }, (v, i) => {
+  }, (_: T, i: number) => {
     arr.slice(i * size, i * size + size)
   })
 }

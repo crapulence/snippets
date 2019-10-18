@@ -1,3 +1,3 @@
-function $(selector, context = document) {
+export function $(selector, context = document) {
   return [...context.querySelectorAll(selector)]
 }
