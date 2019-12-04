@@ -1,4 +1,4 @@
-export type ResultType = "dataUrl" | "text" | "file";
+export type ResultType = 'dataUrl' | 'text' | 'file';
 
 export function readFile(file: File, resultType: ResultType) {
   return new Promise(resolve => {
@@ -8,7 +8,7 @@ export function readFile(file: File, resultType: ResultType) {
     }
 
     const reader = new FileReader();
-    
+
     reader.onload = event => {
       resolve((event.target as FileReader).result);
     };
@@ -18,5 +18,5 @@ export function readFile(file: File, resultType: ResultType) {
     } else if (resultType === 'text') {
       reader.readAsText(file);
     }
-  })
+  });
 }
