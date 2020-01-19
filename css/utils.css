@@ -43,9 +43,16 @@
   -webkit-touch-callout: none;
 }
 
+/* 禁用鼠标事件 */
+.disabled-mouse-event {
+  pointer-events: none;
+}
+
 /* 解决字体在移动端比例缩小后出现锯齿的问题 */
 .font-smoothing {
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* 禁用双击可缩放功能可减少浏览器在用户点击屏幕时延迟生成点击事件的需要 */
@@ -105,6 +112,15 @@
   -ms-filter: blur(5px) brightness(90%);
   filter: blur(5px) brightness(90%);
   filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false);
+}
+
+/* 黑白图像 */
+.desaturate {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+  -ms-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
 }
 
 /**
