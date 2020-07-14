@@ -29,28 +29,38 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Ref } from 'vue-property-decorator';
 import { ModalType } from '@/util/enum';
+import { FormModel } from 'ant-design-vue';
+import { cloneDeep } from 'lodash';
 
-const add = (params: any) => new Promise<any>(resolve => setTimeout(() => {
-  resolve()
-}, 500));
+const add = (params: any) =>
+  new Promise<any>((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 500)
+  );
 
-const edit = (params: any) => new Promise<any>(resolve => setTimeout(() => {
-  resolve()
-}, 500));
+const edit = (params: any) =>
+  new Promise<any>((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 500)
+  );
 
-const getDetail = (params: any) => new Promise<any>(resolve => setTimeout(() => {
-  resolve()
-}, 500));
+const getDetail = (params: any) =>
+  new Promise<any>((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 500)
+  );
 
 @Component
 export default class extends Vue {
   private loading: boolean = false;
   private visible: boolean = false;
   private modalType: ModalType = 0;
-  private modalTitle: string =
-    this.modalType === ModalType.Edit ? '编辑' : '新增';
+  private modalTitle: string = this.modalType === ModalType.Edit ? '编辑' : '新增';
 
   private labelCol = {
     span: 4,
@@ -63,14 +73,15 @@ export default class extends Vue {
   private defaultForm = {
     name: '',
   };
-  
-  private form: any = {
-    ...this.defaultForm,
-  };
+
+  private form: any = cloneDeep(this.defaultForm);
 
   private rules: any = {
     name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
   };
+
+  @Ref('form')
+  private formRef!: FormModel;
 
   public add() {
     this.resetModal();
@@ -85,9 +96,7 @@ export default class extends Vue {
   }
 
   private resetModal() {
-    this.form = {
-      ...this.defaultForm,
-    };
+    this.form = cloneDeep(this.defaultForm);
     this.loading = false;
   }
 
@@ -111,18 +120,17 @@ export default class extends Vue {
   }
 
   private handleSubmit() {
-    (this.$refs.form as any).validate((valid: any) => {
+    this.formRef.validate((valid: any) => {
       if (!valid) {
         this.$message.error('请检查填写项');
       } else {
-        const api =
-          this.modalType === ModalType.Edit ? edit : add;
+        const api = this.modalType === ModalType.Edit ? edit : add;
 
         this.loading = true;
         api({
           ...this.form,
         })
-          .then(res => {
+          .then((res) => {
             this.$message.success('操作成功');
             this.visible = false;
             this.$emit('ok');
