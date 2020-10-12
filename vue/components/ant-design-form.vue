@@ -1,5 +1,5 @@
 <template>
-  <div class="module-form">
+  <div>
     <a-modal
       v-model="visible"
       :title="modalTitle"
@@ -83,24 +83,24 @@ export default class extends Vue {
   @Ref('form')
   private formRef!: FormModel;
 
-  public add() {
+  add() {
     this.resetModal();
     this.modalType = ModalType.Add;
     this.visible = true;
   }
 
-  public edit(id) {
+  edit(id) {
     this.modalType = ModalType.Edit;
     this.visible = true;
     this.getDetail(id);
   }
 
-  private resetModal() {
+  resetModal() {
     this.form = cloneDeep(this.defaultForm);
     this.loading = false;
   }
 
-  private getDetail(id) {
+  getDetail(id) {
     this.loading = true;
     getDetail({
       id,
@@ -119,7 +119,7 @@ export default class extends Vue {
       });
   }
 
-  private handleSubmit() {
+  handleSubmit() {
     this.formRef.validate((valid: any) => {
       if (!valid) {
         this.$message.error('请检查填写项');
