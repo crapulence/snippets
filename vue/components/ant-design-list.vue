@@ -21,7 +21,7 @@
         :rowKey="(record) => record.id"
         :columns="columns"
         :dataSource="dataSource"
-        :pagination="pagination"
+        :pagination="pagination.JSON"
         :loading="loading"
         bordered
         @change="handleTableChange"
@@ -41,8 +41,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Ref } from 'vue-property-decorator';
+import { Component, Mixins, Ref } from 'vue-property-decorator';
 import { cloneDeep } from 'lodash';
+import PageMixin from '@/mixins/PaginationMixin';
 import ModuleForm from './ant-design-form.vue';
 
 const getList = (params: any) =>
@@ -59,23 +60,12 @@ const remove = (params: any) =>
     }, 500)
   );
 
-interface IPaginationConfig {
-  current: number;
-  pageSize: number;
-  showQuickJumper: boolean;
-  showSizeChanger: boolean;
-  totalPage: number;
-  total?: number;
-  size?: string;
-  showTotal: (total: number, range: any[]) => string;
-}
-
 @Component({
   components: {
     ModuleForm,
   },
 })
-export default class extends Vue {
+export default class extends Mixins(PageMixin) {
   private defaultForm: any = {
     name: '',
   };
@@ -96,43 +86,25 @@ export default class extends Vue {
 
   private dataSource: any[] = [];
 
-  private defaultSearch: any = {
-    page: 1,
-    pageSize: 10,
-  };
-
-  private pagination: IPaginationConfig = {
-    size: 'small',
-    total: 0,
-    current: this.defaultSearch.page,
-    pageSize: this.defaultSearch.pageSize,
-    showQuickJumper: true,
-    showSizeChanger: true,
-    totalPage: 10,
-    showTotal: (total: number, range: any[]): string => {
-      const current = parseInt(range[1], 10) + 1 - range[0];
-
-      return `当前页${current}条 共${total}条 共${this.pagination.totalPage}页`;
-    },
-  };
-
   private loading: boolean = false;
 
   @Ref('moduleForm')
   private moduleForm!: any;
 
-  public created() {
-    this.getList(this.defaultSearch);
+  created() {
+    this.getList();
   }
 
-  private getList(params) {
+  getList() {
     this.loading = true;
-    getList(params)
+    getList({
+      ...this.pagination.query,
+      ...this.form,
+    })
       .then((res) => {
-        const pagination = { ...this.pagination };
-        pagination.total = res.data.totalCount;
         this.dataSource = res.data.list;
-        this.pagination = pagination;
+        this.pagination.total = res.data.totalCount;
+        this.pagination.pageSize = res.data.pageSize;
       })
       .catch((err: any) => {
         this.$message.error(err.message);
@@ -142,51 +114,40 @@ export default class extends Vue {
       });
   }
 
-  private handleTableChange(pagination: IPaginationConfig) {
-    const pager = { ...this.pagination };
-    pager.current = pagination.current;
-    pager.pageSize = pagination.pageSize;
-    this.defaultSearch.pageSize = pagination.pageSize;
-    this.pagination = pager;
-    this.getList({
-      ...this.defaultSearch,
-      pageSize: pagination.pageSize,
-      page: pagination.current,
-      ...this.form,
-    });
+  handleTableChange({ current, pageSize }) {
+    this.pagination.current = current;
+    this.pagination.pageSize = pageSize;
+    this.getList();
   }
 
-  private resetPager() {
-    this.pagination.current = this.defaultSearch.page;
+  resetPager() {
+    this.pagination.current = 1;
   }
 
-  private handleSearch() {
+  handleSearch() {
     this.resetPager();
-    this.getList({
-      ...this.defaultSearch,
-      ...this.form,
-    });
+    this.getList();
   }
 
-  private handleReset() {
+  handleReset() {
     this.resetPager();
-    this.form = cloneDeep({}, this.defaultForm);
-    this.getList(this.defaultSearch);
+    this.form = cloneDeep(this.defaultForm);
+    this.getList();
   }
 
-  private handleAdd() {
+  handleAdd() {
     this.moduleForm.add();
   }
 
-  private handleEdit(id) {
+  handleEdit(id) {
     this.moduleForm.edit(id);
   }
 
-  private handleDetail(id) {
+  handleDetail(id) {
     this.moduleForm.detail(id);
   }
 
-  private handleDelete(id) {
+  handleDelete(id) {
     this.loading = true;
     remove({
       id,
