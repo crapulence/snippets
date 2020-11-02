@@ -64,4 +64,7 @@ const regexps: RegExp[] = [
 
   // 是否为图片类型URL
   /\.(jpeg|jpg|gif|png|svg|webp|jfif|bmp|dpg)/i,
+
+  // 是否为视频类型URL
+  /\.(mp4|mpg|mpeg|dat|asf|avi|rm|rmvb|mov|wmv|flv|mkv)/i,
 ];
