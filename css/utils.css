@@ -30,7 +30,7 @@
 
 /* 移动端清除输入框内阴影 */
 .clear-input-shadow {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 /* 禁止文本缩放 */
@@ -160,4 +160,16 @@
 
 .hairline-top-bottom::after {
   border-width: 1px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    filter: invert(100%);
+    background-color: rgb(29, 32, 31) !important;
+  }
+
+  img,
+  .emoji {
+    filter: invert(100%);
+  }
 }
